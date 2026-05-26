@@ -47,6 +47,10 @@ class Girafe(Animal):
 
     # --- Méthodes spéciales ---
 
+    def __len__(self):
+        """Longueur de la girafe = longueur du cou."""
+        return int(self.longueur_cou)
+
     def __str__(self):
         return f"Girafe {self.nom} (Cou: {self.longueur_cou} cm)"
 

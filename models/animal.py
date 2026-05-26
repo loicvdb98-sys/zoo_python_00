@@ -1,3 +1,6 @@
+from functools import total_ordering
+
+@total_ordering
 class Animal:
     """Classe parent représentant un animal générique."""
 
@@ -60,7 +63,7 @@ class Animal:
         print(f"Soigneur : {self.soigneur}")
         print(f"En vie : {'Oui' if self.en_vie else 'Non'}")
 
-    # --- Méthodes spéciales ---
+    # --- Méthodes spéciales (représentations) ---
 
     def __str__(self):
         return f"{self.nom} (Appétit: {self.appetit}, Satisfaction: {self.satisfaction})"
@@ -70,3 +73,35 @@ class Animal:
             f"Animal(nom={self.nom}, appetit={self.appetit}, "
             f"satisfaction={self.satisfaction}, soigneur={self.soigneur})"
         )
+
+    # --- Comparaisons (Data Model) ---
+
+    def __eq__(self, other):
+        if not isinstance(other, Animal):
+            return NotImplemented
+        return (self.nom, self.appetit, self.satisfaction) == (
+            other.nom,
+            other.appetit,
+            other.satisfaction,
+        )
+
+    def __lt__(self, other):
+        if not isinstance(other, Animal):
+            return NotImplemented
+        # Tri par nom, puis par satisfaction décroissante
+        if self.nom != other.nom:
+            return self.nom < other.nom
+        return self.satisfaction > other.satisfaction
+
+    # --- Accès façon dictionnaire ---
+
+    def __getitem__(self, key):
+        mapping = {
+            "nom": self.nom,
+            "appetit": self.appetit,
+            "satisfaction": self.satisfaction,
+            "soigneur": self.soigneur,
+        }
+        if key not in mapping:
+            raise KeyError(f"Clé '{key}' inconnue pour Animal")
+        return mapping[key]

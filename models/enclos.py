@@ -53,8 +53,24 @@ class Enclos:
         for animal in self._liste_animaux:
             print(f"- {animal} ({animal.__class__.__name__})")
 
+    # --- Data model ---
+
     def __len__(self):
         return len(self._liste_animaux)
 
+    def __iter__(self):
+        return iter(self._liste_animaux)
+
+    def __contains__(self, animal):
+        return animal in self._liste_animaux
+
     def __repr__(self):
         return f"Enclos(nom={self.nom}, capacite={self.capacite_max}, nb_animaux={len(self)})"
+
+    # --- Outils "pro" ---
+
+    def trier_animaux_par_nom(self):
+        self._liste_animaux.sort(key=lambda a: a.nom)
+
+    def trier_animaux_par_satisfaction(self, reverse=True):
+        self._liste_animaux.sort(key=lambda a: a.satisfaction, reverse=reverse)

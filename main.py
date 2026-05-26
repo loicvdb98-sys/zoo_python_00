@@ -34,6 +34,7 @@ def afficher_menu():
     print("5. Entretenir un animal")
     print("6. Observer un animal")
     print("7. Comportement au hasard")
+    print("8. Trier les animaux par nom")
     print("0. Quitter")
     print("=" * 45)
 
@@ -122,6 +123,14 @@ def main():
                 animal.comportement_hasard()
             else:
                 print("Cet animal n'a pas de comportement aléatoire défini.")
+
+        elif choix == "8":
+            if not animaux:
+                print("❌ Aucun animal à trier.")
+            else:
+                enclos.trier_animaux_par_nom()
+                print("✅ Animaux triés par nom.")
+                enclos.afficher_animaux()
 
         elif choix == "0":
             print("Fermeture du programme...")

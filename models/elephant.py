@@ -47,6 +47,10 @@ class Elephant(Animal):
 
     # --- Méthodes spéciales ---
 
+    def __len__(self):
+        """Longueur de l'éléphant = longueur des défenses."""
+        return int(self.longueur_defense)
+
     def __str__(self):
         return f"Éléphant {self.nom} (Défense: {self.longueur_defense} cm)"
 
