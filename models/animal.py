@@ -1,8 +1,9 @@
+from abc import ABC, abstractmethod
 from functools import total_ordering
 
 @total_ordering
-class Animal:
-    """Classe parent représentant un animal générique."""
+class Animal(ABC):
+    """Classe abstraite représentant un animal générique."""
 
     def __init__(self, nom, appetit=100, satisfaction=50, soigneur=None):
         self.nom = nom
@@ -53,28 +54,29 @@ class Animal:
         self._appetit = min(100, self._appetit + quantite)
         self._satisfaction = min(100, self._satisfaction + quantite // 2)
 
+    # --- Méthodes abstraites obligatoires ---
+
+    @abstractmethod
     def observer_environnement(self):
-        print(f"{self.nom} observe calmement son environnement.")
+        pass
 
-    def afficher_etat(self):
-        print(f"\n--- État de {self.nom} ---")
-        print(f"Appétit : {self.appetit}/100")
-        print(f"Satisfaction : {self.satisfaction}/100")
-        print(f"Soigneur : {self.soigneur}")
-        print(f"En vie : {'Oui' if self.en_vie else 'Non'}")
+    @abstractmethod
+    def ramasser_objet(self):
+        """Chaque animal ramasse un objet différemment."""
+        pass
 
-    # --- Méthodes spéciales (représentations) ---
+    @abstractmethod
+    def probabilite_deces(self):
+        """Retourne un pourcentage de risque de décès."""
+        pass
+
+    # --- Méthodes spéciales (repr, eq, lt, getitem) ---
 
     def __str__(self):
         return f"{self.nom} (Appétit: {self.appetit}, Satisfaction: {self.satisfaction})"
 
     def __repr__(self):
-        return (
-            f"Animal(nom={self.nom}, appetit={self.appetit}, "
-            f"satisfaction={self.satisfaction}, soigneur={self.soigneur})"
-        )
-
-    # --- Comparaisons (Data Model) ---
+        return f"Animal(nom={self.nom}, appetit={self.appetit}, satisfaction={self.satisfaction}, soigneur={self.soigneur})"
 
     def __eq__(self, other):
         if not isinstance(other, Animal):
@@ -88,12 +90,9 @@ class Animal:
     def __lt__(self, other):
         if not isinstance(other, Animal):
             return NotImplemented
-        # Tri par nom, puis par satisfaction décroissante
         if self.nom != other.nom:
             return self.nom < other.nom
         return self.satisfaction > other.satisfaction
-
-    # --- Accès façon dictionnaire ---
 
     def __getitem__(self, key):
         mapping = {
