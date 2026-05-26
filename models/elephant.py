@@ -8,8 +8,6 @@ class Elephant(Animal):
         super().__init__(nom, appetit, satisfaction, soigneur)
         self.longueur_defense = longueur_defense
 
-    # --- Propriété spécifique ---
-
     @property
     def longueur_defense(self):
         return self._longueur_defense
@@ -20,6 +18,18 @@ class Elephant(Animal):
             raise ValueError("La longueur de défense doit être positive.")
         self._longueur_defense = value
 
+    # --- Implémentations obligatoires ---
+
+    def observer_environnement(self):
+        print(f"{self.nom} observe avec sa mémoire d’éléphant.")
+
+    def ramasser_objet(self):
+        print(f"{self.nom} ramasse un objet avec sa trompe.")
+
+    def probabilite_deces(self):
+        """Plus l'appétit est bas, plus le risque augmente."""
+        return max(0, 100 - self.appetit)
+
     # --- Comportements spécifiques ---
 
     def prendre_bain_de_boue(self):
@@ -29,30 +39,13 @@ class Elephant(Animal):
     def aspirer_eau(self):
         print(f"{self.nom} aspire de l'eau avec sa trompe.")
 
-    # --- Polymorphisme : redéfinition ---
-
-    def observer_environnement(self):
-        print(f"{self.nom} observe l’environnement avec sa mémoire d’éléphant.")
-
-    # --- Comportement aléatoire ---
-
     def comportement_hasard(self):
         actions = [
             self.prendre_bain_de_boue,
             self.aspirer_eau,
             lambda: self.manger(10),
         ]
-        action = random.choice(actions)
-        action()
-
-    # --- Méthodes spéciales ---
+        random.choice(actions)()
 
     def __len__(self):
-        """Longueur de l'éléphant = longueur des défenses."""
         return int(self.longueur_defense)
-
-    def __str__(self):
-        return f"Éléphant {self.nom} (Défense: {self.longueur_defense} cm)"
-
-    def __repr__(self):
-        return f"Elephant(nom={self.nom}, defense={self.longueur_defense})"
