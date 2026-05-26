@@ -8,8 +8,6 @@ class Girafe(Animal):
         super().__init__(nom, appetit, satisfaction, soigneur)
         self.longueur_cou = longueur_cou
 
-    # --- Propriété spécifique ---
-
     @property
     def longueur_cou(self):
         return self._longueur_cou
@@ -20,6 +18,17 @@ class Girafe(Animal):
             raise ValueError("La longueur du cou doit être positive.")
         self._longueur_cou = value
 
+    # --- Implémentations obligatoires ---
+
+    def observer_environnement(self):
+        print(f"{self.nom} observe depuis les hauteurs.")
+
+    def ramasser_objet(self):
+        print(f"{self.nom} attrape un objet avec sa longue langue.")
+
+    def probabilite_deces(self):
+        return max(0, 100 - self.satisfaction)
+
     # --- Comportements spécifiques ---
 
     def manger_feuilles(self):
@@ -27,14 +36,7 @@ class Girafe(Animal):
         self._appetit = min(100, self._appetit + 10)
 
     def boire_eau(self):
-        print(f"{self.nom} écarte ses pattes pour boire de l'eau.")
-
-    # --- Polymorphisme : redéfinition ---
-
-    def observer_environnement(self):
-        print(f"{self.nom} observe l’environnement depuis les hauteurs.")
-
-    # --- Comportement aléatoire ---
+        print(f"{self.nom} écarte ses pattes pour boire.")
 
     def comportement_hasard(self):
         actions = [
@@ -42,17 +44,7 @@ class Girafe(Animal):
             self.boire_eau,
             lambda: self.manger(10),
         ]
-        action = random.choice(actions)
-        action()
-
-    # --- Méthodes spéciales ---
+        random.choice(actions)()
 
     def __len__(self):
-        """Longueur de la girafe = longueur du cou."""
         return int(self.longueur_cou)
-
-    def __str__(self):
-        return f"Girafe {self.nom} (Cou: {self.longueur_cou} cm)"
-
-    def __repr__(self):
-        return f"Girafe(nom={self.nom}, cou={self.longueur_cou})"
