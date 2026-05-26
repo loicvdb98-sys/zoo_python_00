@@ -21,22 +21,17 @@ class Soigneur:
             raise ValueError("Le nom du soigneur ne peut pas être vide.")
         self._nom = value
 
-    @nom.deleter
-    def nom(self):
-        print("Suppression du nom du soigneur.")
-        del self._nom
-
     @property
     def date_naissance(self):
-        return self._date_naissance  # lecture seule
+        return self._date_naissance
 
     @property
     def experience(self):
-        return self._experience  # lecture seule
+        return self._experience
 
     @property
     def nb_animaux_responsable(self):
-        return self._nb_animaux_responsable  # lecture seule
+        return self._nb_animaux_responsable
 
     @property
     def age(self):
@@ -60,3 +55,9 @@ class Soigneur:
             return
         animal._satisfaction = min(100, animal._satisfaction + 10)
         print(f"{animal.nom} a été entretenu par {self._nom}.")
+
+    def __str__(self):
+        return f"Soigneur {self.nom} ({self.age} ans, {self.experience} ans d'expérience)"
+
+    def __repr__(self):
+        return f"Soigneur(nom={self.nom}, age={self.age}, experience={self.experience})"

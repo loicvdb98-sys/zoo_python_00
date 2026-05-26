@@ -1,71 +1,54 @@
-class Elephant:
-    """Classe représentant un éléphant dans le zoo."""
+import random
+from .animal import Animal
 
-    def __init__(self, nom, appetit=100, satisfaction=50, soigneur=None):
-        self.nom = nom
-        self._appetit = appetit
-        self._satisfaction = satisfaction
-        self._en_vie = True
-        self.soigneur = soigneur
+class Elephant(Animal):
+    """Classe représentant un éléphant."""
 
-    # --- Propriétés ---
+    def __init__(self, nom, appetit=100, satisfaction=50, soigneur=None, longueur_defense=50):
+        super().__init__(nom, appetit, satisfaction, soigneur)
+        self.longueur_defense = longueur_defense
 
-    @property
-    def nom(self):
-        return self._nom
-
-    @nom.setter
-    def nom(self, value):
-        if not value.strip():
-            raise ValueError("Le nom de l'éléphant ne peut pas être vide.")
-        self._nom = value
-
-    @nom.deleter
-    def nom(self):
-        print("Suppression du nom de l'éléphant.")
-        del self._nom
+    # --- Propriété spécifique ---
 
     @property
-    def appetit(self):
-        return self._appetit  # lecture seule
+    def longueur_defense(self):
+        return self._longueur_defense
 
-    @property
-    def satisfaction(self):
-        return self._satisfaction  # lecture seule
+    @longueur_defense.setter
+    def longueur_defense(self, value):
+        if value < 0:
+            raise ValueError("La longueur de défense doit être positive.")
+        self._longueur_defense = value
 
-    @property
-    def en_vie(self):
-        return self._en_vie  # lecture seule
+    # --- Comportements spécifiques ---
 
-    @property
-    def soigneur(self):
-        return self._soigneur
+    def prendre_bain_de_boue(self):
+        print(f"{self.nom} prend un bain de boue.")
+        self._satisfaction = min(100, self._satisfaction + 15)
 
-    @soigneur.setter
-    def soigneur(self, value):
-        if value is None or value == "":
-            raise ValueError("Un éléphant doit avoir un soigneur.")
-        self._soigneur = value
+    def aspirer_eau(self):
+        print(f"{self.nom} aspire de l'eau avec sa trompe.")
 
-    # --- Méthodes ---
+    # --- Polymorphisme : redéfinition ---
 
-    def manger(self, quantite):
-        if quantite < 0:
-            raise ValueError("La quantité de nourriture doit être positive.")
+    def observer_environnement(self):
+        print(f"{self.nom} observe l’environnement avec sa mémoire d’éléphant.")
 
-        if not self._en_vie:
-            print(f"{self._nom} ne peut plus manger, il est mort.")
-            return
+    # --- Comportement aléatoire ---
 
-        self._appetit = min(100, self._appetit + quantite)
-        self._satisfaction = min(100, self._satisfaction + quantite // 2)
+    def comportement_hasard(self):
+        actions = [
+            self.prendre_bain_de_boue,
+            self.aspirer_eau,
+            lambda: self.manger(10),
+        ]
+        action = random.choice(actions)
+        action()
 
-        if self._appetit <= 0:
-            self._en_vie = False
+    # --- Méthodes spéciales ---
 
-    def afficher_etat(self):
-        print(f"\n--- État de {self._nom} ---")
-        print(f"Appétit : {self._appetit}/100")
-        print(f"Satisfaction : {self._satisfaction}/100")
-        print(f"Soigneur : {self._soigneur}")
-        print(f"En vie : {'Oui' if self._en_vie else 'Non'}")
+    def __str__(self):
+        return f"Éléphant {self.nom} (Défense: {self.longueur_defense} cm)"
+
+    def __repr__(self):
+        return f"Elephant(nom={self.nom}, defense={self.longueur_defense})"

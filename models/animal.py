@@ -53,10 +53,20 @@ class Animal:
     def observer_environnement(self):
         print(f"{self.nom} observe calmement son environnement.")
 
-    # --- Méthodes spéciales (Data Model) ---
+    def afficher_etat(self):
+        print(f"\n--- État de {self.nom} ---")
+        print(f"Appétit : {self.appetit}/100")
+        print(f"Satisfaction : {self.satisfaction}/100")
+        print(f"Soigneur : {self.soigneur}")
+        print(f"En vie : {'Oui' if self.en_vie else 'Non'}")
+
+    # --- Méthodes spéciales ---
 
     def __str__(self):
         return f"{self.nom} (Appétit: {self.appetit}, Satisfaction: {self.satisfaction})"
 
     def __repr__(self):
-        return f"Animal(nom={self.nom}, appetit={self.appetit}, satisfaction={self.satisfaction}, soigneur={self.soigneur})"
+        return (
+            f"Animal(nom={self.nom}, appetit={self.appetit}, "
+            f"satisfaction={self.satisfaction}, soigneur={self.soigneur})"
+        )

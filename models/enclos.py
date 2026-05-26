@@ -19,11 +19,6 @@ class Enclos:
             raise ValueError("Le nom de l'enclos ne peut pas être vide.")
         self._nom = value
 
-    @nom.deleter
-    def nom(self):
-        print("Suppression du nom de l'enclos.")
-        del self._nom
-
     @property
     def capacite_max(self):
         return self._capacite_max
@@ -36,11 +31,11 @@ class Enclos:
 
     @property
     def taille(self):
-        return self._taille  # lecture seule
+        return self._taille
 
     @property
     def liste_animaux(self):
-        return self._liste_animaux  # lecture seule
+        return list(self._liste_animaux)
 
     # --- Méthodes ---
 
@@ -56,4 +51,10 @@ class Enclos:
             print("Aucun animal pour le moment.")
             return
         for animal in self._liste_animaux:
-            print(f"- {animal.nom}")
+            print(f"- {animal} ({animal.__class__.__name__})")
+
+    def __len__(self):
+        return len(self._liste_animaux)
+
+    def __repr__(self):
+        return f"Enclos(nom={self.nom}, capacite={self.capacite_max}, nb_animaux={len(self)})"
